@@ -17,6 +17,9 @@ ipykernel = "*"
 seaborn = "*"
 albumentations = "*"
 pytorch-ignite = "*"
+timm = "*"
+ultralytics = "*"
+rembg = "*"
 
 [dev-packages]
 
