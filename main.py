@@ -13,8 +13,8 @@ if __name__ == "__main__":
   parser.add_argument('--img_size', type=int, default=384)
   parser.add_argument('--num_workers', type=int, default=4)
   parser.add_argument('--batch_size', type=int, default=32)
-  parser.add_argument('--model_name', default="ConvNext")
-  parser.add_argument('--detail', default="xlarge_384")
+  parser.add_argument('--model_name', default="ResNet50")
+  parser.add_argument('--detail', default="v0")
   parser.add_argument('--data_path', default="data")
   parser.add_argument('--ckpt', default=None)
   # parser.add_argument('--clip', default=1)
@@ -27,9 +27,10 @@ if __name__ == "__main__":
   trainer = Trainer(CONFIG=CONFIG)
   
   if CONFIG.mode == "train":
-    pass
+    trainer.setup()
+    trainer.train()
   elif CONFIG.mode == "test":
-    pass
+    trainer.test()
   else:
     raise ValueError(f"{CONFIG.mode}is not vaild, you can only use trian or test")
   

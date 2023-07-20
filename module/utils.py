@@ -42,7 +42,7 @@ def crop_preprocess(img, model):
 
 def get_logger(filename, log_level=logging.INFO):
   formatter = logging.Formatter("[%(asctime)s] %(levelname)s %(message)s")
-  handler = logging.FileHandler(filename)
+  handler = logging.FileHandler(f"log/{filename}")
   handler.setFormatter(formatter)
   logger = logging.getLogger()
   logger.setLevel(log_level)

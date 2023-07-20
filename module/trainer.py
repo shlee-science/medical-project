@@ -22,6 +22,7 @@ from ultralytics import YOLO
 
 from module.utils import Config, get_logger
 from module.dataset import ScoliosisDataset_v0
+from module.model import ResNet50
 
 class Trainer:
   def __init__(self, CONFIG: Config):
@@ -30,15 +31,15 @@ class Trainer:
     self.logger = get_logger(f"{self.config.model_name}.log")
     
   def setup(self):
-    df = pd.read_csv(self.config.data_path)
+    df = pd.read_csv(os.path.join(self.config.data_path, "scoliosis.csv"))
     
     # csv 파일 형식따라 수정 필요
     df["path"] = df["path"].apply(lambda x: os.path.join(self.config.data_path, x))
     
     try:
       self.model = eval(f"{self.config.model_name}()")
-    except Exception:
-      raise NameError(f"{self.config.model_name}is not exist. please check model name")
+    except Exception as e:
+      raise NameError(f"{self.config.model_name} is not exist. please check model name")
     
     self.loss_fn = nn.BCELoss()
     
@@ -97,11 +98,12 @@ class Trainer:
     optimizer = optim.Adam(params=self.model.parameters(), lr=self.config.lr)
     lr_scheduler = None
     
+    early_stop = 0 
     best_val_acc = 0
     best_model = None
     
     
-    for epoch in (1, self.config.epochs+1):
+    for epoch in range(1, self.config.epochs+1):
       self.model.train()
       train_loss_lst = []
       for imgs, labels in tqdm(self.train_dataloader):
@@ -124,10 +126,14 @@ class Trainer:
       self.logger.info(f"EPOCH: {epoch} | Train Loss: {train_loss:.3f} | Val Loss: {val_loss:.3f} | Val Acc: {val_acc:.3f}")
 
       if best_val_acc < val_acc:
+        early_stop = 0
         best_val_acc = val_acc
         best_model = deepcopy(self.model)
       
-    torch.save({"model_state_dict": best_model.state_dict()}, f"ckpt/{self.config.model_name}.pth")
+      if early_stop >= 5:
+        break
+      
+    torch.save({"model_state_dict": best_model.state_dict()}, f"ckpt/{self.config.model_name}_{self.config.detail}.pth")
     
   
   
@@ -155,7 +161,7 @@ class Trainer:
     return np.mean(val_loss), np.mean(val_acc)
         
   
-  def predict(self):
+  def test(self):
     # checkpoint = torch.load(PATH)
     # model.load_state_dict(checkpoint['model_state_dict'])
     # optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
