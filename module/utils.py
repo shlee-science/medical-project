@@ -63,4 +63,5 @@ class Config:
   detail: str  
   ckpt: str
   data_path: str
+  test_img_path: str
   device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")

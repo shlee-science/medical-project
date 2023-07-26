@@ -16,7 +16,8 @@ if __name__ == "__main__":
   parser.add_argument('--model_name', default="ResNet50")
   parser.add_argument('--detail', default="v0")
   parser.add_argument('--data_path', default="data")
-  parser.add_argument('--ckpt', default=None)
+  parser.add_argument('--test_img_path', default="data/test/1.JPG")
+  parser.add_argument('--ckpt', type=str, default=None)
   # parser.add_argument('--clip', default=1)
   # parser.add_argument('--checkpoints', default="microsoft/beit-base-patch16-224-pt22k-ft22k")
   args = parser.parse_args()
@@ -30,6 +31,7 @@ if __name__ == "__main__":
     trainer.setup()
     trainer.train()
   elif CONFIG.mode == "predict":
+    # 사진 하나 예측
     pass
   else:
     raise ValueError(f"{CONFIG.mode}is not vaild, you can only use trian or test")
