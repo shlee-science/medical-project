@@ -21,9 +21,10 @@ def crop_preprocess(img, model):
   img를 등부분만 crop해서 반환해주는 함수
   """
   result = model(img, verbose=False)[0]
+  
   bbox = result.boxes
   keypoints = result.keypoints
-  
+  # print(bbox)
   xyxy = bbox.xyxy[0]
 
   # 박스 좌표

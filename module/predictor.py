@@ -26,7 +26,7 @@ def predict(config: Config):
   crop_img = crop_preprocess(img, keypoint_model)
   test_img = test_aug(image=crop_img)["image"].unsqueeze(0)
   
-  model = ResNet50()
+  model = ResNet50().cuda()
   ckpt = torch.load(config.ckpt, map_location=config.device)
   model.load_state_dict(ckpt["model_state_dict"])
   
