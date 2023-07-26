@@ -2,6 +2,7 @@ import argparse
 
 from module.utils import seed_everything, Config
 from module.trainer import Trainer
+from module.predictor import predict
 
 
 if __name__ == "__main__":
@@ -32,7 +33,7 @@ if __name__ == "__main__":
     trainer.train()
   elif CONFIG.mode == "predict":
     # 사진 하나 예측
-    pass
+    predict(config=CONFIG)
   else:
     raise ValueError(f"{CONFIG.mode}is not vaild, you can only use trian or test")
   

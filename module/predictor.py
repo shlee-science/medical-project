@@ -22,9 +22,9 @@ def predict(config: Config):
     A.Resize(config.img_size, config.img_size),
     ToTensorV2()
   ])
-  test_img = test_aug(image=img)["image"]
   
   crop_img = crop_preprocess(img, keypoint_model)
+  test_img = test_aug(image=crop_img)["image"].unsqueeze(0)
   
   model = ResNet50()
   ckpt = torch.load(config.ckpt, map_location=config.device)
@@ -33,10 +33,10 @@ def predict(config: Config):
   
   model.eval()
   with torch.no_grad():
-    result = model(crop_img)
-    result = result.cpu().numpy()
+    result = model(test_img)
+    result = result.squeeze(0).cpu().numpy()[0]
   
-  print(result)
+  print(f"척추 측만증일 확률: {result*100:.3f}%")
     
   
   
