@@ -24,13 +24,13 @@ if __name__ == "__main__":
   CONFIG = Config(**vars(args))
   seed_everything(CONFIG.seed)
   
-  trainer = Trainer(CONFIG=CONFIG)
   
   if CONFIG.mode == "train":
+    trainer = Trainer(CONFIG=CONFIG)
     trainer.setup()
     trainer.train()
-  elif CONFIG.mode == "test":
-    trainer.test()
+  elif CONFIG.mode == "predict":
+    pass
   else:
     raise ValueError(f"{CONFIG.mode}is not vaild, you can only use trian or test")
   

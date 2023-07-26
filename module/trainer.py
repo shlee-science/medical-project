@@ -135,8 +135,7 @@ class Trainer:
       
     torch.save({"model_state_dict": best_model.state_dict()}, f"ckpt/{self.config.model_name}_{self.config.detail}.pth")
     
-  
-  
+    
   def valid(self):
     self.model.eval()
     with torch.no_grad():
@@ -159,10 +158,3 @@ class Trainer:
         val_loss.append(loss.item())
     
     return np.mean(val_loss), np.mean(val_acc)
-        
-  
-  def test(self):
-    # checkpoint = torch.load(PATH)
-    # model.load_state_dict(checkpoint['model_state_dict'])
-    # optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
-    pass
