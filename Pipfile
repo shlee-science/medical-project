@@ -20,6 +20,7 @@ pytorch-ignite = "*"
 timm = "*"
 ultralytics = "*"
 rembg = "*"
+streamlit = "*"
 
 [dev-packages]
 
