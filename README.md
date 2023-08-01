@@ -14,5 +14,6 @@
 > 
 > 1. 학습된 Yolov8 프레임워크의 딥러닝 모델을 활용해 pose keypoint를 찾고 bbox를 탐색(_augmentation/sample_pipeline.ipynb_)
 > 2. efficientnet과 같은 cnn based model을 선정후 학습
-> 3. 저장된 모델을 통해 추론 - [테스트 영상](https://drive.google.com/file/d/1WDoIKtjJyNNEP80vvJB8RZYELtwyms_q/view?usp=sharing)
-> 
+> 3. 저장된 모델을 통해 추론
+>    - [테스트 영상 1](https://drive.google.com/file/d/1WDoIKtjJyNNEP80vvJB8RZYELtwyms_q/view?usp=sharing)
+>    - [테스트 영상 2](https://drive.google.com/file/d/14uEXCE4vRE2tN_UAO_RM8bWzYhVxoygw/view?usp=sharing)
