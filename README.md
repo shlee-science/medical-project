@@ -16,4 +16,4 @@
 > 2. efficientnet과 같은 cnn based model을 선정후 학습
 > 3. 저장된 모델을 통해 추론
 >    - [테스트 영상 1](https://drive.google.com/file/d/1WDoIKtjJyNNEP80vvJB8RZYELtwyms_q/view?usp=sharing)
->    - [테스트 영상 2](https://drive.google.com/file/d/14uEXCE4vRE2tN_UAO_RM8bWzYhVxoygw/view?usp=sharing)
+>    - [테스트 영상 2](https://drive.google.com/file/d/1-uthREs-MrpOqvWeWYueTpI6j1rHnPxW/view?usp=sharing)
