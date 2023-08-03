@@ -1,3 +1,12 @@
+# 환경
+CPU : Intel Xeon 2.8GHZ, 32core
+OS : CentOS Linux 7
+Memory : 362GB
+Swp : 64GB
+GPU : Nvida A100-PCIE-40GB
+
+_왠지 모르겠지만 nvcc 버전을 다르게 설치해도 torch.cuda가 gpu인식하고 잘 동작함_
+
 # TODO
 - [ ] 데이터 셋 배경 제거 및 합성
 - [ ] 타입별 예측(multi class)
