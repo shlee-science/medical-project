@@ -7,6 +7,13 @@ GPU : Nvida A100-PCIE-40GB
 
 _왠지 모르겠지만 nvcc 버전을 다르게 설치해도 torch.cuda가 gpu인식하고 잘 동작함_
 
+## 환경설정
+
+> conda install pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia
+> conda install libnvjpeg-dev -c nvidia
+> conda install -c conda-forge libstdcxx-ng
+> 이외의 필요한 라이브러리 설치
+
 # TODO
 - [ ] 데이터 셋 배경 제거 및 합성
 - [ ] 타입별 예측(multi class)

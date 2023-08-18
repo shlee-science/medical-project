@@ -135,7 +135,8 @@ class Trainer:
       
       if early_stop >= 5:
         break
-      
+    
+    os.makedirs("ckpt", exist_ok=True)
     torch.save({"model_state_dict": best_model.state_dict()}, f"ckpt/{self.config.model_name}_{self.config.detail}.pth")
     
     
