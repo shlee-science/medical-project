@@ -15,7 +15,7 @@ if __name__ == "__main__":
   parser.add_argument('--num_workers', type=int, default=4)
   parser.add_argument('--batch_size', type=int, default=32)
   parser.add_argument('--model_name', default="ResNet50")
-  parser.add_argument('--detail', default="v0")
+  parser.add_argument('--detail', default="v1")
   parser.add_argument('--data_path', default="data")
   parser.add_argument('--test_img_path', default="data/test/1.JPG")
   parser.add_argument('--ckpt', type=str, default=None)

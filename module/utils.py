@@ -19,6 +19,8 @@ def seed_everything(seed: int):
 def crop_preprocess(img, model):
   """
   img를 등부분만 crop해서 반환해주는 함수
+  박스의 width
+  목과 어깨 1:3 지점 엉덩이부분을 height
   """
   result = model(img, verbose=False)[0]
   
@@ -31,13 +33,13 @@ def crop_preprocess(img, model):
   left_x = xyxy[0]
   right_x = xyxy[2] 
 
-  t = keypoints.xy[0][0] # 코(머리 부분)
+  t = keypoints.xy[0][0] # 코(머리 부분)dd
   lt = keypoints.xy[0][5] # 왼쪽 어깨
   rt = keypoints.xy[0][6] # 오른쪽 어깨
   lb = keypoints.xy[0][11] # 왼쪽 엉덩이
   rb = keypoints.xy[0][12] # 오른쪽 엉덩이
   
-  img = img[int((t[1] + min(lt[1], rt[1]))/2):int(max(lb[1], rb[1])), int(left_x):int(right_x)]
+  img = img[int((t[1]*3 + min(lt[1], rt[1]))/4):int(max(lb[1], rb[1])), int(left_x):int(right_x)]
   return img
 
 

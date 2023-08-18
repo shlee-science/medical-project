@@ -21,6 +21,7 @@ timm = "*"
 ultralytics = "*"
 rembg = "*"
 streamlit = "*"
+imutils = "*"
 
 [dev-packages]
 

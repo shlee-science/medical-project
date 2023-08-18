@@ -22,19 +22,21 @@ from ultralytics import YOLO
 
 from module.utils import Config, get_logger
 from module.dataset import ScoliosisDataset_v0
-from module.model import ResNet50
+from module.model import *
 
 class Trainer:
   def __init__(self, CONFIG: Config):
     self.config = CONFIG
     self.keypoint_model = YOLO("yolov8n-pose.pt")
-    self.logger = get_logger(f"{self.config.model_name}.log")
+    self.logger = get_logger(f"{self.config.model_name}_{self.config.detail}.log")
     
   def setup(self):
-    df = pd.read_csv(os.path.join(self.config.data_path, "scoliosis.csv"))
+    df = pd.read_csv(os.path.join(self.config.data_path, "scoliosis_v1.csv"))
     
     # csv 파일 형식따라 수정 필요
     df["path"] = df["path"].apply(lambda x: os.path.join(self.config.data_path, x))
+    # null 값 삭제
+    df.dropna(axis=0, inplace=True)
     
     try:
       self.model = eval(f"{self.config.model_name}()")
@@ -64,6 +66,7 @@ class Trainer:
           A.ColorJitter(),
           A.ChannelShuffle()
         ]),
+        A.Rotate(limit=5),
         ToTensorV2()
       ])
       
