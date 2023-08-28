@@ -10,8 +10,18 @@ _왠지 모르겠지만 nvcc 버전을 다르게 설치해도 torch.cuda가 gpu�
 ## 환경설정
 
 > conda install pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia
-> conda install libnvjpeg-dev -c nvidia
+> conda install -c conda-forge albumentations
+> conda install -c anaconda scikit-learn
+> conda install -c anaconda seaborn
+> conda install -c conda-forge tqdm
+> conda install -c conda-forge timm
+> conda install -c conda-forge ultralytics
+> conda install -c anaconda libgcc
+> conda install -c conda-forge gcc
 > conda install -c conda-forge libstdcxx-ng
+
+> export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/.conda/envs/lab/lib
+> conda install libnvjpeg-dev -c nvidia
 > 이외의 필요한 라이브러리 설치
 
 # TODO
