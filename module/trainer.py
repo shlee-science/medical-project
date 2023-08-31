@@ -16,6 +16,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torch.utils.data import DataLoader
 
+
 import albumentations as A
 from albumentations.pytorch.transforms import ToTensorV2
 from ultralytics import YOLO
@@ -39,7 +40,8 @@ class Trainer:
     df.dropna(axis=0, inplace=True)
     
     try:
-      self.model = eval(f"{self.config.model_name}()")
+      # self.model = eval(f"{self.config.model_name}()")
+      self.model = ResNet50()
     except Exception as e:
       raise NameError(f"{self.config.model_name} is not exist. please check model name")
     
