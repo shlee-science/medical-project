@@ -13,7 +13,7 @@ class ResNet50(nn.Module):
   def forward(self, x):
     x = self.model(x)
     return F.sigmoid(x)
-  
+
 
 class Effnetb4(nn.Module):
   def __init__(self, num_classes=1):

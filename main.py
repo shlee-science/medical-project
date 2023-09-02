@@ -17,13 +17,14 @@ if __name__ == "__main__":
   parser.add_argument('--model_name', default="ResNet50")
   parser.add_argument('--detail', default="v1")
   parser.add_argument('--data_path', default="data")
-  parser.add_argument('--test_img_path', default="data/test/1.JPG")
-  parser.add_argument('--ckpt', type=str, default=None)
+  parser.add_argument('--test_img_path', default="data/train/1.JPG")
+  parser.add_argument('--ckpt', type=str, default="ckpt/ResNet50_v1.pth")
   # parser.add_argument('--clip', default=1)
   # parser.add_argument('--checkpoints', default="microsoft/beit-base-patch16-224-pt22k-ft22k")
   args = parser.parse_args()
   
   CONFIG = Config(**vars(args))
+  # CONFIG 저장필요
   seed_everything(CONFIG.seed)
   
   

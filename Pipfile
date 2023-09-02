@@ -22,6 +22,7 @@ ultralytics = "*"
 rembg = "*"
 streamlit = "*"
 imutils = "*"
+torchinfo = "*"
 
 [dev-packages]
 
