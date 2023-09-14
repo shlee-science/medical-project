@@ -23,6 +23,7 @@ rembg = "*"
 streamlit = "*"
 imutils = "*"
 torchinfo = "*"
+clearml = "*"
 
 [dev-packages]
 

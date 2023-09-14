@@ -16,6 +16,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torch.utils.data import DataLoader
 
+from clearml import Task, Logger
 
 import albumentations as A
 from albumentations.pytorch.transforms import ToTensorV2
@@ -23,15 +24,20 @@ from ultralytics import YOLO
 
 from module.utils import Config, get_logger
 from module.dataset import ScoliosisDataset_v0
-from module.model import *
+from module.model import build_model
 
 class Trainer:
   def __init__(self, CONFIG: Config):
     self.config = CONFIG
     self.keypoint_model = YOLO("yolov8n-pose.pt")
-    self.logger = get_logger(f"{self.config.model_name}_{self.config.detail}.log")
+    # self.logger = get_logger(f"{self.config.model_name}_{self.config.detail}.log")
+    self.task = Task.init(project_name="scoliosis-predict", task_name=f"{self.config.model_name}_{self.config.detail}_exp")
+    # 환경변수 저장 (하이퍼 파라미터 저장)
+    # self.task.connect(CONFIG.__dict__)
     
   def setup(self):
+    # TODO
+    # csv file 경로 환경변수로 수정
     df = pd.read_csv(os.path.join(self.config.data_path, "scoliosis_v1.csv"))
     
     # csv 파일 형식따라 수정 필요
@@ -41,7 +47,7 @@ class Trainer:
     
     try:
       # self.model = eval(f"{self.config.model_name}()")
-      self.model = ResNet50()
+      self.model = build_model(self.config.model_name)
     except Exception as e:
       raise NameError(f"{self.config.model_name} is not exist. please check model name")
     
@@ -128,7 +134,18 @@ class Trainer:
       val_loss, val_acc = self.valid()
       train_loss = np.mean(train_loss_lst)
 
-      self.logger.info(f"EPOCH: {epoch} | Train Loss: {train_loss:.3f} | Val Loss: {val_loss:.3f} | Val Acc: {val_acc:.3f}")
+      # self.logger.info(f"EPOCH: {epoch} | Train Loss: {train_loss:.3f} | Val Loss: {val_loss:.3f} | Val Acc: {val_acc:.3f}")
+      Logger.current_logger().report_scalar(
+        "Loss", "train loss", iteration=epoch, value=train_loss
+      )
+
+      Logger.current_logger().report_scalar(
+        "Loss", "val loss", iteration=epoch, value=val_loss
+      )
+      
+      Logger.current_logger().report_scalar(
+        "Acc", "val acc", iteration=epoch, value=val_acc
+      )
 
       if best_val_acc < val_acc:
         early_stop = 0

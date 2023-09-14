@@ -4,6 +4,13 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+def build_model(model_name):
+  if model_name == "resnet_50":
+    return ResNet50()
+  elif model_name == "efficientnet_b4":
+    return Effnetb4()
+  
+
 class ResNet50(nn.Module):
   def __init__(self, num_classes=1):
     super().__init__()

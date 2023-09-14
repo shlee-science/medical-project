@@ -17,7 +17,6 @@ class ScoliosisDataset_v0(Dataset):
     self.keypoint_model = keypoint_model
     
   def __getitem__(self, idx):
-    print(self.img_paths[idx])
     img = cv2.imread(self.img_paths[idx])
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     img = crop_preprocess(img, self.keypoint_model)
