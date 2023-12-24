@@ -16,8 +16,6 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torch.utils.data import DataLoader
 
-from clearml import Task, Logger
-
 import albumentations as A
 from albumentations.pytorch.transforms import ToTensorV2
 from ultralytics import YOLO
@@ -31,7 +29,6 @@ class Trainer:
     self.config = CONFIG
     self.keypoint_model = YOLO("yolov8n-pose.pt")
     # self.logger = get_logger(f"{self.config.model_name}_{self.config.detail}.log")
-    self.task = Task.init(project_name="scoliosis-predict", task_name=f"{self.config.model_name}_{self.config.detail}_exp")
     # 환경변수 저장 (하이퍼 파라미터 저장)
     # self.task.connect(CONFIG.__dict__)
     
@@ -99,9 +96,7 @@ class Trainer:
         shuffle=False
       )
     
-    elif self.config.mode == "test":
-      pass
-      
+
   def train(self):
     self.model.to(self.config.device)
     self.loss_fn.to(self.config.device)
@@ -135,17 +130,6 @@ class Trainer:
       train_loss = np.mean(train_loss_lst)
 
       # self.logger.info(f"EPOCH: {epoch} | Train Loss: {train_loss:.3f} | Val Loss: {val_loss:.3f} | Val Acc: {val_acc:.3f}")
-      Logger.current_logger().report_scalar(
-        "Loss", "train loss", iteration=epoch, value=train_loss
-      )
-
-      Logger.current_logger().report_scalar(
-        "Loss", "val loss", iteration=epoch, value=val_loss
-      )
-      
-      Logger.current_logger().report_scalar(
-        "Acc", "val acc", iteration=epoch, value=val_acc
-      )
 
       if best_val_acc < val_acc:
         early_stop = 0
