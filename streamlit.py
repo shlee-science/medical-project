@@ -19,7 +19,7 @@ import streamlit as st
 def get_model():
   keypoint_model = YOLO("yolov8n-pose.pt")
   model = ResNet50()
-  ckpt = torch.load("ckpt/ResNet50_v0.pth", map_location='cpu')
+  ckpt = torch.load("ckpt/resnet_50_v1.pth", map_location='cpu')
   model.load_state_dict(ckpt["model_state_dict"])
   
   return keypoint_model, model

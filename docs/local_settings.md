@@ -8,6 +8,8 @@ conda activate pnu_lab
 # 관련 라이브러리 설치
 ```
 
+Yolov8n-pose.pt 파일 다운로드 프로젝트 루트 폴더에 위치시켜야합니다.
+
 
 ---
 ## Data

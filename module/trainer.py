@@ -21,29 +21,25 @@ from albumentations.pytorch.transforms import ToTensorV2
 from ultralytics import YOLO
 
 from module.utils import Config, get_logger
-from module.dataset import ScoliosisDataset_v0
+from module.dataset import ScoliosisDataset
 from module.model import build_model
 
 class Trainer:
   def __init__(self, CONFIG: Config):
     self.config = CONFIG
     self.keypoint_model = YOLO("yolov8n-pose.pt")
-    # self.logger = get_logger(f"{self.config.model_name}_{self.config.detail}.log")
-    # 환경변수 저장 (하이퍼 파라미터 저장)
-    # self.task.connect(CONFIG.__dict__)
+    self.logger = get_logger(f"{self.config.model_name}_{self.config.detail}.log")
+
     
   def setup(self):
-    # TODO
-    # csv file 경로 환경변수로 수정
+    # csv 파일 경로
     df = pd.read_csv(os.path.join(self.config.data_path, "scoliosis_v1.csv"))
     
-    # csv 파일 형식따라 수정 필요
     df["path"] = df["path"].apply(lambda x: os.path.join(self.config.data_path, x))
     # null 값 삭제
     df.dropna(axis=0, inplace=True)
     
     try:
-      # self.model = eval(f"{self.config.model_name}()")
       self.model = build_model(self.config.model_name)
     except Exception as e:
       raise NameError(f"{self.config.model_name} is not exist. please check model name")
@@ -59,7 +55,6 @@ class Trainer:
         stratify=df["type"])
       
       train_transform = A.Compose([
-        A.Normalize(),
         A.Resize(self.config.img_size, self.config.img_size),
         A.HorizontalFlip(),
         A.OneOf([
@@ -72,17 +67,18 @@ class Trainer:
           A.ChannelShuffle()
         ]),
         A.Rotate(limit=5),
+        A.Normalize(),
         ToTensorV2()
       ])
       
       val_transform = A.Compose([
-        A.Normalize(),
         A.Resize(self.config.img_size, self.config.img_size),
+        A.Normalize(),
         ToTensorV2()
       ])
       
-      train_dataset = ScoliosisDataset_v0(img_pahts=x_train, labels=y_train, transforms=train_transform, keypoint_model=self.keypoint_model)
-      val_dataset = ScoliosisDataset_v0(img_pahts=x_val, labels=y_val, transforms=val_transform, keypoint_model=self.keypoint_model)
+      train_dataset = ScoliosisDataset(img_pahts=x_train, labels=y_train, transforms=train_transform, keypoint_model=self.keypoint_model)
+      val_dataset = ScoliosisDataset(img_pahts=x_val, labels=y_val, transforms=val_transform, keypoint_model=self.keypoint_model)
       
       self.train_dataloader = DataLoader(
         dataset=train_dataset,
@@ -99,7 +95,6 @@ class Trainer:
 
   def train(self):
     self.model.to(self.config.device)
-    self.loss_fn.to(self.config.device)
     
     optimizer = optim.Adam(params=self.model.parameters(), lr=self.config.lr)
     lr_scheduler = None
@@ -129,7 +124,7 @@ class Trainer:
       val_loss, val_acc = self.valid()
       train_loss = np.mean(train_loss_lst)
 
-      # self.logger.info(f"EPOCH: {epoch} | Train Loss: {train_loss:.3f} | Val Loss: {val_loss:.3f} | Val Acc: {val_acc:.3f}")
+      self.logger.info(f"EPOCH: {epoch} | Train Loss: {train_loss:.3f} | Val Loss: {val_loss:.3f} | Val Acc: {val_acc:.3f}")
 
       if best_val_acc < val_acc:
         early_stop = 0

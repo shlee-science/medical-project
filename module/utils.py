@@ -33,7 +33,7 @@ def crop_preprocess(img, model):
   left_x = xyxy[0]
   right_x = xyxy[2] 
 
-  t = keypoints.xy[0][0] # 코(머리 부분)dd
+  t = keypoints.xy[0][0] # 코(머리 부분)
   lt = keypoints.xy[0][5] # 왼쪽 어깨
   rt = keypoints.xy[0][6] # 오른쪽 어깨
   lb = keypoints.xy[0][11] # 왼쪽 엉덩이
@@ -68,4 +68,4 @@ class Config:
   ckpt: str
   data_path: str
   test_img_path: str
-  device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+  device = "cuda" if torch.cuda.is_available() else "cpu"
